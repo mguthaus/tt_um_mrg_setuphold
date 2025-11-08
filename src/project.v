@@ -112,8 +112,8 @@ module tt_um_mrg_setuphold(
     // Clock fixed at 128 inverter delays, data delay varies with index
     // Data delay = (index + 1) * inverter_delay
     // Indices start at 1, adjust by ±2 to maintain odd polarity
-    reg [7:0] setup_index;
-    reg [7:0] hold_index;
+    reg [8:0] setup_index;
+    reg [8:0] hold_index;
 
     // --- 4. Setup Time Test DFF Signal Selection ---
     // Ring osc mode: delayed_clk[127], test_data_source
@@ -231,14 +231,14 @@ module tt_um_mrg_setuphold(
     // NOTE: Increment/decrement by 2 to preserve signal polarity through inverter chain
     always @(posedge clk or negedge rst_n) begin
         if (!rst_n) begin
-            setup_index <= 8'd1;  // Start with minimal delay (2 inversions, plenty of setup time)
+            setup_index <= 9'd1;  // Start with minimal delay (2 inversions, plenty of setup time)
         end else if (update_index) begin
             // Update only during state 2 based on test results
             // Step by 2 to preserve polarity
-            if (!setup_passed && setup_index > 8'd1)
-                setup_index <= setup_index - 8'd2;  // Failed (setup violation), make data earlier
-            else if (setup_passed && setup_index < 8'd254)
-                setup_index <= setup_index + 8'd2;  // Passed, make data later to find boundary
+            if (!setup_passed && setup_index > 9'd1)
+                setup_index <= setup_index - 9'd2;  // Failed (setup violation), make data earlier
+            else if (setup_passed && setup_index < 9'd254)
+                setup_index <= setup_index + 9'd2;  // Passed, make data later to find boundary
         end
     end
 
@@ -249,14 +249,14 @@ module tt_um_mrg_setuphold(
     // NOTE: Increment/decrement by 2 to preserve signal polarity through inverter chain
     always @(posedge clk or negedge rst_n) begin
         if (!rst_n) begin
-            hold_index <= 8'd255;  // Start at maximum delay (256 inversions, will fail hold)
+            hold_index <= 9'd255;  // Start at maximum delay (256 inversions, will fail hold)
         end else if (update_index) begin
             // Update only during state 2 based on test results
             // Step by 2 to preserve polarity
-            if (!hold_passed && hold_index > 8'd1)
-                hold_index <= hold_index - 8'd2;  // Failed (hold violation), make data earlier
-            else if (hold_passed && hold_index < 8'd254)
-                hold_index <= hold_index + 8'd2;  // Passed, make data later to find boundary
+            if (!hold_passed && hold_index > 9'd1)
+                hold_index <= hold_index - 9'd2;  // Failed (hold violation), make data earlier
+            else if (hold_passed && hold_index < 9'd254)
+                hold_index <= hold_index + 9'd2;  // Passed, make data later to find boundary
         end
     end
 
@@ -311,7 +311,7 @@ module tt_um_mrg_setuphold(
                 // Load new data based on mode
                 shift_reg <= ring_osc_mode ?
                              {clk_ring_count, data_ring_count} :  // Ring osc: counts
-                             {8'h0, setup_index, 8'h0, hold_index};  // Test: padded indices
+                             {7'h0, setup_index, 7'h0, hold_index};  // Test: padded indices
                 shift_valid <= 1'b1;  // First bit
                 shift_counter <= 6'd1;
             end else if (shift_counter < 6'd32) begin
