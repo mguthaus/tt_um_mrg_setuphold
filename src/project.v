@@ -313,6 +313,6 @@ module tt_um_mrg_setuphold(
                      {setup_index[7:0]};         // Current setup index
 
     assign uio_oe = 8'hFF;
-    wire _unused = &{ui_in[6:0]};
+    wire _unused = &{ui_in[6:0], uio_in[7:0]};
 
 endmodule
