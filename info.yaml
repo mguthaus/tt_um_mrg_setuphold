@@ -51,3 +51,6 @@ pinout:
   uio[5]: "INDEX_MON[5]" # Monitoring: setup_index[5] or clk_count[5]
   uio[6]: "INDEX_MON[6]" # Monitoring: setup_index[6] or clk_count[6]
   uio[7]: "INDEX_MON[7]" # Monitoring: setup_index[7] or clk_count[7]
+
+  # Do not change!
+yaml_version: 6
