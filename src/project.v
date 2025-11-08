@@ -33,6 +33,12 @@ module tt_um_mrg_setuphold(
     sky130_fd_sc_hd__inv_1 clk_inv_0 (
         .A(clk_chain_input),
         .Y(delayed_clk[0])
+`ifdef GL_TEST
+    ,.VGND(VGND),
+    .VNB(VGND),
+    .VPB(VPWR),
+    .VPWR(VPWR)
+`endif
     );
 
     // Remaining 128 inverters (stages 1-128)
@@ -46,6 +52,12 @@ module tt_um_mrg_setuphold(
             sky130_fd_sc_hd__inv_1 clk_inv (
                 .A(inv_in),
                 .Y(delayed_clk[i])
+`ifdef GL_TEST
+    ,.VGND(VGND),
+    .VNB(VGND),
+    .VPB(VPWR),
+    .VPWR(VPWR)
+`endif
             );
         end
     endgenerate
@@ -67,6 +79,12 @@ module tt_um_mrg_setuphold(
     sky130_fd_sc_hd__inv_1 data_inv_0 (
         .A(data_chain_input),
         .Y(delayed_data[0])
+`ifdef GL_TEST
+    ,.VGND(VGND),
+    .VNB(VGND),
+    .VPB(VPWR),
+    .VPWR(VPWR)
+`endif
     );
 
     // Remaining 256 inverters (stages 1-256)
@@ -80,6 +98,12 @@ module tt_um_mrg_setuphold(
             sky130_fd_sc_hd__inv_1 data_inv (
                 .A(data_inv_in),
                 .Y(delayed_data[j])
+`ifdef GL_TEST
+    ,.VGND(VGND),
+    .VNB(VGND),
+    .VPB(VPWR),
+    .VPWR(VPWR)
+`endif
             );
         end
     endgenerate
@@ -106,6 +130,12 @@ module tt_um_mrg_setuphold(
         .D(setup_selected_data),
         .CLK(setup_selected_clk),
         .Q(setup_test_output)
+`ifdef GL_TEST
+    ,.VGND(VGND),
+    .VNB(VGND),
+    .VPB(VPWR),
+    .VPWR(VPWR)
+`endif
     );
 
     // --- 5. Hold Time Test DFF Signal Selection ---
@@ -123,6 +153,12 @@ module tt_um_mrg_setuphold(
         .D(hold_selected_data),
         .CLK(hold_selected_clk),
         .Q(hold_test_output)
+`ifdef GL_TEST
+    ,.VGND(VGND),
+    .VNB(VGND),
+    .VPB(VPWR),
+    .VPWR(VPWR)
+`endif
     );
 
     // --- 6. Capture and Compare ---
