@@ -10,8 +10,9 @@ PROJECT_SOURCES = project.v
 
 ifneq ($(GATES),yes)
 
-# RTL simulation:
+# RTL simulation with Sky130 wrapper for testing:
 SIM_BUILD				= sim_build/rtl
+VERILOG_SOURCES += $(PWD)/sky130_wrapper.v
 VERILOG_SOURCES += $(addprefix $(SRC_DIR)/,$(PROJECT_SOURCES))
 
 else
