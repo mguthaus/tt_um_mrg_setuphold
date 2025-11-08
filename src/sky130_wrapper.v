@@ -3,7 +3,6 @@
 
 `timescale 1ns/1ps
 
-`ifndef GL_TEST
 // D Flip-Flop with enforced setup/hold timing - outputs 0 on violations
 module sky130_fd_sc_hd__dfxtp_1 (
     input D,
@@ -84,4 +83,3 @@ module sky130_fd_sc_hd__inv_1 (
     assign Y = Y_reg;
 
 endmodule
-`endif
